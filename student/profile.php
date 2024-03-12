@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('../includes/dbconn.php');
-    date_default_timezone_set('America/Chicago');
+    date_default_timezone_set('Africa/Kampala');
     include('../includes/check-login.php');
     check_login();
     $aid=$_SESSION['id'];
@@ -50,6 +50,7 @@
      }
     </script> -->
     
+    
 </head>
 
 <body>
@@ -73,12 +74,7 @@
         <header class="topbar" data-navbarbg="skin6">
             <?php include '../includes/student-navigation.php'?>
         </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
+        
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
@@ -86,16 +82,9 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+       
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+            
             <div class="container-fluid">
                 
                 <div class="col-7 align-self-center">
@@ -156,7 +145,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">First Name</h4>
                                         <div class="form-group">
-                                            <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $row->firstName;?>"   required="required">
+                                            <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $row->firstName;?>"   required="required" readonly>
                                         </div>
                                     
                                 </div>
@@ -169,7 +158,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Last Name</h4>
                                         <div class="form-group">
-                                            <input type="text" name="mname" id="mname" class="form-control" value="<?php echo $row->middleName;?>">
+                                            <input type="text" name="mname" id="mname" class="form-control" value="<?php echo $row->middleName;?>" readonly>
                                         </div>
                                     
                                 </div>
@@ -180,9 +169,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Dept.</h4>
+                                    <h4 class="card-title">Middle Name.</h4>
                                         <div class="form-group">
-                                            <input type="text" name="lname" id="lname" class="form-control" value="<?php echo $row->lastName;?>" required="required">
+                                            <input type="text" name="lname" id="lname" class="form-control" value="<?php echo $row->lastName;?>" required="required" readonly>
                                         </div>
                                     
                                 </div>
@@ -194,14 +183,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Gender</h4>
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" id="gender" name="gender">
-                                            <option value="<?php echo $row->gender;?>"><?php echo $row->gender;?></option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Others">Others</option>
-                                        </select>
+                            <h4 class="card-title">Gender</h4>
+                                    <div class="form-group">
+                                        <input type="text" name="gender" id="gender" value="<?php echo $row->gender;?>" class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -246,28 +230,13 @@
 
 
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
+            
             <?php include '../includes/footer.php' ?>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+       
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+   
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>

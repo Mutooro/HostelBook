@@ -11,7 +11,7 @@
 
         <li class="nav-small-cap"><span class="hide-menu">Features</span></li>
                             
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="register-student.php"
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="new-student.php"
         aria-expanded="false"><i class="fas fa-user-plus"></i><span
         class="hide-menu">Register Student</span></a></li>
 
@@ -19,9 +19,7 @@
         aria-expanded="false"><i class="fas fa-user-circle"></i><span
         class="hide-menu">View Student Acc.</span></a></li>
 
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="bookings.php"
-        aria-expanded="false"><i class="fas fa-h-square"></i><span
-        class="hide-menu">Book Hostel</span></a></li>
+      
 
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-students.php"
         aria-expanded="false"><i class="fas fa-users"></i><span

@@ -1,3 +1,11 @@
+<?php
+
+
+include('../includes/dbconn.php');
+// Your existing code goes here
+
+?>
+
 <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->

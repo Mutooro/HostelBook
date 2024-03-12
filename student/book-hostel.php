@@ -1,40 +1,99 @@
 <?php
     session_start();
-    include('../includes/dbconn.php');
+    // include('../includes/dbconn.php');
+
+    $dbuser = "root";
+    $dbpass = "";
+    $host = "localhost";
+    $dbname = "hostelmsphp";
+    
+    try {
+        // Create a PDO instance
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpass);
+        
+        // Set PDO to throw exceptions on error
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {
+        // Handle connection errors
+        die("Connection failed: " . $e->getMessage());
+    }
     include('../includes/check-login.php');
     check_login();
-    if(isset($_POST['submit'])){
-        $roomno=$_POST['room'];
-        $seater=$_POST['seater'];
-        $feespm=$_POST['fpm'];
-        $foodstatus=$_POST['foodstatus'];
-        $stayfrom=$_POST['stayf'];
-        $duration=$_POST['duration'];
-        $course=$_POST['course'];
-        $regno=$_POST['regno'];
-        $fname=$_POST['fname'];
-        $mname=$_POST['mname'];
-        $lname=$_POST['lname'];
-        $gender=$_POST['gender'];
-        $contactno=$_POST['contact'];
-        $emailid=$_POST['email'];
-        $emcntno=$_POST['econtact'];
-        $gurname=$_POST['gname'];
-        $gurrelation=$_POST['grelation'];
-        $gurcntno=$_POST['gcontact'];
-        $caddress=$_POST['address'];
-        $ccity=$_POST['city'];
-        $cpincode=$_POST['pincode'];
-        $paddress=$_POST['paddress'];
-        $pcity=$_POST['pcity'];
-        $ppincode=$_POST['ppincode'];
-        $query="INSERT into  registration(roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresPincode,pmntAddress,pmntCity,pmntPincode) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('iiiisissssssisissississi',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode);
+
+// Assuming you have established a PDO database connection already
+
+if(isset($_POST['submit'])) {
+    // Retrieve form data
+    $roomno = $_POST['room'];
+    $seater = $_POST['seater'];
+    $feespm = $_POST['fpm'];
+    $foodstatus = $_POST['foodstatus'];
+    $stayfrom = $_POST['stayf'];
+    $duration = $_POST['duration'];
+    $course = $_POST['course'];
+    $regno = $_POST['regno'];
+    $firstName = $_POST['fname'];
+    $middleName = $_POST['mname'];
+    $lastName = $_POST['lname'];
+    $gender = $_POST['gender'];
+    $contactno = $_POST['contact'];
+    $emailid = $_POST['email'];
+    $egycontactno = $_POST['econtact'];
+    $guardianName = $_POST['gname'];
+    $guardianRelation = $_POST['grelation'];
+    $guardianContactno = $_POST['gcontact'];
+    $corresAddress = $_POST['address'];
+    $corresCity = $_POST['city'];
+    $corresPincode = $_POST['pincode'];
+
+    try {
+        // Prepare SQL statement
+        $stmt = $pdo->prepare("INSERT INTO registration (roomno, seater, feespm, foodstatus, stayfrom, duration, course, regno, firstName, middleName, lastName, gender, contactno, emailid, egycontactno, guardianName, guardianRelation, guardianContactno, corresAddress, corresCity, corresPincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        // Bind parameters
+        $stmt->bindParam(1, $roomno);
+        $stmt->bindParam(2, $seater);
+        $stmt->bindParam(3, $feespm);
+        $stmt->bindParam(4, $foodstatus);
+        $stmt->bindParam(5, $stayfrom);
+        $stmt->bindParam(6, $duration);
+        $stmt->bindParam(7, $course);
+        $stmt->bindParam(8, $regno);
+        $stmt->bindParam(9, $firstName);
+        $stmt->bindParam(10, $middleName);
+        $stmt->bindParam(11, $lastName);
+        $stmt->bindParam(12, $gender);
+        $stmt->bindParam(13, $contactno);
+        $stmt->bindParam(14, $emailid);
+        $stmt->bindParam(15, $egycontactno);
+        $stmt->bindParam(16, $guardianName);
+        $stmt->bindParam(17, $guardianRelation);
+        $stmt->bindParam(18, $guardianContactno);
+        $stmt->bindParam(19, $corresAddress);
+        $stmt->bindParam(20, $corresCity);
+        $stmt->bindParam(21, $corresPincode);
+
+        // Execute the statement
         $stmt->execute();
-        echo"<script>alert('Requested Student Has Been Registered!');</script>";
+
+        // Check if the insertion was successful
+        if ($stmt->rowCount() > 0) {
+            echo"<script>alert('Record added successfully!');
+            window.location.href='book-hostel.php';
+            </script>";
+        } else {
+            echo "Error inserting record.";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
+
+    // Close statement and connection
+    unset($stmt);
+    unset($pdo);
+}
 ?>
+
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -54,6 +113,14 @@
     <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
+    <style>
+    /* CSS to make input element ignore pointer events */
+    #fpm, #seater{
+        background-color: #f5f5f5; /* Light gray background */
+        color: #666;
+        pointer-events: none;
+    }
+</style>
 
     <script>
     function getSeater(val) {
@@ -96,18 +163,11 @@
     <!-- ============================================================== -->
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
+        
         <header class="topbar" data-navbarbg="skin6">
             <?php include '../includes/student-navigation.php'?>
         </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
+        
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
@@ -115,17 +175,10 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+        
         <div class="page-wrapper">
             
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+            
             <div class="container-fluid">
                 
                 <form method="POST">
@@ -248,7 +301,7 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio1" value="1" name="foodstatus"
                                         class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio1">Required <code>Extra ৳5000 Per Month</code></label>
+                                    <label class="custom-control-label" for="customRadio1">Required <code>Extra Ush150,000 Per Month</code></label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio2" value="0" name="foodstatus"
@@ -266,7 +319,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Total Fees Per Month</h4>
                                     <div class="form-group">
-                                        <input type="text" name="fpm" id="fpm" placeholder="Your total fees" class="form-control">
+                                        <input type="text" name="fpm" id="fpm" placeholder="Your total fees" class="form-control" >
                                     </div>
                             </div>
                         </div>
@@ -595,21 +648,11 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <?php include '../includes/footer.php' ?>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+    
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+   
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
