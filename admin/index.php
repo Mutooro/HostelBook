@@ -1,25 +1,29 @@
 <?php
     session_start();
     include('../includes/dbconn.php');
-    if(isset($_POST['login'])){
-    $username=$_POST['username'];
-    $password=$_POST['password'];
-    $password = md5($password);
-    $stmt=$mysqli->prepare("SELECT username,email,password,id FROM admin WHERE (userName=?|| email=?) and password=? ");
-		$stmt->bind_param('sss',$username,$username,$password);
-		$stmt->execute();
-		$stmt -> bind_result($username,$username,$password,$id);
-		$rs=$stmt->fetch();
-		$_SESSION['id']=$id;
-		$uip=$_SERVER['REMOTE_ADDR'];
-		$ldate=date('d/m/Y h:i:s', time());
-		if($rs){
-			header("location:dashboard.php");
-				} else {
-					echo "<script>alert('Invalid Username/Email or password');</script>";
-				}
-	}
+
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $hashedPassword = md5($password); // Consider using a stronger hashing algorithm
+
+        $stmt = $mysqli->prepare("SELECT username, email, password, id FROM admin WHERE (userName=? OR email=?) AND password=? ");
+        $stmt->bind_param('sss', $username, $username, $hashedPassword);
+        $stmt->execute();
+        $stmt->bind_result($dbUsername, $dbEmail, $dbPassword, $id);
+        $success = $stmt->fetch();
+        $stmt->close();
+
+        if ($success) {
+            $_SESSION['id'] = $id;
+            header("location:dashboard.php");
+        } else {
+            echo "<script>alert('Sorry, Invalid Username/Email or Password!');</script>";
+        }
+    }
 ?>
+
+
 
 <!DOCTYPE html>
 <html dir="ltr">

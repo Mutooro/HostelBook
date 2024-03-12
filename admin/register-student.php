@@ -1,6 +1,8 @@
 <?php
     session_start();
     include('../includes/dbconn.php');
+    include('../includes/check-login.php');
+    check_login();
     if(isset($_POST['submit']))
     {
     $regno=$_POST['regno'];
@@ -12,11 +14,14 @@
     $emailid=$_POST['email'];
     $password=$_POST['password'];
     $password = md5($password);
-    $query="INSERT into userRegistration(regNo,firstName,middleName,lastName,gender,contactNo,email,password) values(?,?,?,?,?,?,?,?)";
+    $query="INSERT into userregistration(regNo,firstName,middleName,lastName,gender,contactNo,email,password) values(?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($query);
-    $rc=$stmt->bind_param('sssssiss',$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$password);
+    $rc = $stmt->bind_param('ssssssis', $regno, $fname, $mname, $lname, $gender, $contactno, $emailid, $password);
+
     $stmt->execute();
-        echo"<script>alert('Student has been Registered!');</script>";
+        echo"<script>alert('Student has been Registered!');
+        window.location.href='register-student.php';
+        </script>";
     }
 ?>
 
@@ -162,7 +167,7 @@
                         </div>
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Department</h4>
@@ -171,7 +176,7 @@
                                         </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <div class="col-sm-12 col-md-6 col-lg-4">

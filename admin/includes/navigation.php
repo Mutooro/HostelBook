@@ -77,7 +77,7 @@
                                             ?>	
 
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark"><?php echo $row->username; }?></span> <i data-feather="chevron-down"
+                                        class="text-dark"><?php echo ucfirst($row->username); }?></span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">

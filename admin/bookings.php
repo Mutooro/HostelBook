@@ -3,39 +3,66 @@
     include('../includes/dbconn.php');
     include('../includes/check-login.php');
     check_login();
-    //code for registration
-    if(isset($_POST['submit'])){
-        $roomno=$_POST['room'];
-        $seater=$_POST['seater'];
-        $feespm=$_POST['fpm'];
-        $foodstatus=$_POST['foodstatus'];
-        $stayfrom=$_POST['stayf'];
-        $duration=$_POST['duration'];
-        $course=$_POST['course'];
-        $regno=$_POST['regno'];
-        $fname=$_POST['fname'];
-        $mname=$_POST['mname'];
-        $lname=$_POST['lname'];
-        $gender=$_POST['gender'];
-        $contactno=$_POST['contact'];
-        $emailid=$_POST['email'];
-        $emcntno=$_POST['econtact'];
-        $gurname=$_POST['gname'];
-        $gurrelation=$_POST['grelation'];
-        $gurcntno=$_POST['gcontact'];
-        $caddress=$_POST['address'];
-        $ccity=$_POST['city'];
-        $cpincode=$_POST['pincode'];
-        $paddress=$_POST['paddress'];
-        $pcity=$_POST['pcity'];
-        $ppincode=$_POST['ppincode'];
-        $query="INSERT into  registration(roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresPincode,pmntAddress,pmntCity,pmntPincode) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    // code for registration
+    if (isset($_POST['submit'])) {
+        $roomno = $_POST['room'];
+        $seater = $_POST['seater'];
+        $feespm = $_POST['fpm'];
+        $foodstatus = $_POST['foodstatus'];
+        $stayfrom = $_POST['stayf'];
+        $duration = $_POST['duration'];
+        $course = $_POST['course'];
+        $regno = $_POST['regno'];
+        $fname = $_POST['fname'];
+        $mname = $_POST['mname'];
+        $lname = $_POST['lname'];
+        $gender = $_POST['gender'];
+        $contactno = $_POST['contact'];
+        $emailid = $_POST['email'];
+        $emcntno = $_POST['econtact'];
+        $gurname = $_POST['gname'];
+        $gurrelation = $_POST['grelation'];
+        $gurcntno = $_POST['gcontact'];
+        $caddress = $_POST['address'];
+        $ccity = $_POST['city'];
+        $cpincode = $_POST['pincode'];
+        $paddress = $_POST['paddress'];
+        $pcity = $_POST['pcity'];
+        $ppincode = $_POST['ppincode'];
+
+        $query = "INSERT INTO registration(roomno, seater, feespm, foodstatus, stayfrom, duration, course, regno, firstName, middleName, lastName, gender, contactno, emailid, egycontactno, guardianName, guardianRelation, guardianContactno, corresAddress, corresCIty, corresPincode, pmntAddress, pmntCity, pmntPincode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
         $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('iiiisissssssisissississi',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode);
-        $stmt->execute();
-        echo"<script>alert('Success: Booked!');</script>";
+
+        // Check for errors in the prepared statement
+        if ($stmt === false) {
+            die('Error in preparing the statement: ' . $mysqli->error);
+        }
+
+        // Bind parameters
+        $rc = $stmt->bind_param('iiiisissssssisissississi', $roomno, $seater, $feespm, $foodstatus, $stayfrom, $duration, $course, $regno, $fname, $mname, $lname, $gender, $contactno, $emailid, $emcntno, $gurname, $gurrelation, $gurcntno, $caddress, $ccity, $cpincode, $paddress, $pcity, $ppincode);
+
+        // Check for errors in binding parameters
+        if ($rc === false) {
+            die('Error in binding parameters: ' . $stmt->error);
+        }
+
+        // Execute the statement
+        $success = $stmt->execute();
+
+        // Check for errors in execution
+        if ($success === false) {
+            die('Error in executing the statement: ' . $stmt->error);
+        }
+
+        echo "<script>alert('Success: Booked!');</script>";
+
+        // Close the statement
+        $stmt->close();
     }
 ?>
+
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
