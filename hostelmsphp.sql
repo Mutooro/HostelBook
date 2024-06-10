@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `password`, `reg_date`, `updation_date`) VALUES
-(1, 'admin', 'admin@mail.com', 'b4af804009cb036a4ccdc33431ef9ac9', '2020-09-08 20:31:45', '2024-03-12');
+(1, 'admin', 'admin@mail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2020-09-08 20:31:45', '2024-03-12');
 
 -- --------------------------------------------------------
 
